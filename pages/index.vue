@@ -8,7 +8,7 @@
     <div class="v-center rtl">
       <b-container>
         <b-row class="justify-content-center">
-          <b-col lg="9" cols="12">
+          <b-col xl="7" lg="8" md="10" cols="12">
             <b-card class="border-0 rounded-expanded position-relative index-question-wrapper">
               <b-card class="border-0 index-top-header shadow-large text-center">
                 چقدر از کیفیت خدمات ما راضی هستید؟

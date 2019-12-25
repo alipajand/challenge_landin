@@ -1,29 +1,27 @@
 <template>
   <div>
-    <div class="index-main-bg position-absolute h-100 w-100" />
-    <div class="index-main-wave-container position-absolute h-100 w-100 overflow-hidden">
-      <div class="index-main-wave left-top position-absolute" />
-      <div class="index-main-wave right-bottom position-absolute" />
-    </div>
     <div class="v-center rtl">
       <b-container>
-        <b-row
+        <div
           v-if="data.questions && data.questions.length !== 0"
-          class="mb-3 carousel-navigator-container justify-content-center text-center"
+          class="mb-2 carousel-navigator-container justify-content-center text-center d-flex"
         >
-          <b-col
+          <div
             v-for="(card, index) in data.questions"
             :key="index"
-            cols="auto"
+            :class="index === data.question ? '' : 'deactive'"
+            class="carousel-navigator-item p-2"
+            @click="changeQuestion(index)"
           >
             <div class="carousel-navigator" />
-          </b-col>
-        </b-row>
+          </div>
+        </div>
 
         <b-row
           v-for="(question, index) in data.questions"
           :key="index"
-          class="justify-content-center"
+          :class="index === data.question ? '' : 'opacity-0'"
+          class="justify-content-center carousel-question-item"
         >
           <b-col cols="10" lg="8" xl="6">
             <b-card class="border-0 rounded-expanded position-relative index-question-wrapper">
@@ -38,7 +36,7 @@
                       {{ question.sliderMaxText }}
                     </div>
                   </div>
-                  <div class="d-flex align-items-center flex-grow-1 px-4 pb-4">
+                  <div class="d-flex align-items-center flex-grow-1 px-5 pb-4">
                     <vue-slider
                       v-model="question.sliderVal"
                       class="w-100"
@@ -80,19 +78,54 @@
             sliderMaxValue: 5,
             sliderInterval: 1,
             sliderVal: 0
+          },
+          {
+            title: 'چقدر از بنده راضی هستید؟',
+            sliderMinText: 'معمولی',
+            sliderMaxText: 'خیلی زیاد',
+            sliderMaxImg: '/img/slider2.png',
+            sliderMinImg: '/img/slider1.png',
+            sliderMinValue: 0,
+            sliderMaxValue: 5,
+            sliderInterval: 1,
+            sliderVal: 0
           }
         ]
       }
     }),
     watch: {
-      '$route'() {
-        this.slideToQuestion();
+      $route: {
+        immediate: true,
+        handler: 'slideToQuestion'
       }
     },
     methods: {
+      changeQuestion(index) {
+        index = Number(index);
+
+        if (index <= 0) {
+          index = 0;
+        } else if (index >= this.data.questions.length) {
+          index = this.data.questions.length;
+        }
+
+        this.$router.push({
+          name: 'index',
+          query: { q: String(index) }
+        });
+      },
       slideToQuestion() {
-        const { q: questionNo } = this.$route.query;
-        this.data.question = questionNo;
+        const { q: questionNo = 0 } = this.$route.query;
+
+        let index = Number(questionNo);
+        if (String(questionNo) >= String(this.data.questions.length)) {
+          index = this.data.questions.length;
+          this.changeQuestion(index);
+
+          return;
+        }
+
+        this.data.question = Number(index);
       }
     }
   };
@@ -101,42 +134,32 @@
 <style scoped lang="scss">
   @import "../assets/scss/dep";
 
-  $question-top: -54px;
+  .carousel-question-item {
+    @include opacity(1);
+    @include transition(opacity 0.4s ease-in);
 
-  .index-main-bg {
-    z-index: -2;
-    background: url('/img/bg.png') center center no-repeat;
-    background-size: cover;
+    &.opacity-0 {
+      height: 0;
+      @include opacity(0);
+    }
   }
 
   .carousel-navigator-container {
     @include transform(translateY(#{$question-top - 20px}));
 
-    .carousel-navigator {
-      width: 40px;
-      height: 3px;
-      background-color: white;
-    }
-  }
+    .carousel-navigator-item {
+      cursor: pointer;
+      @include opacity(1);
+      @include transition(all 0.4s ease-in);
 
-  .index-main-wave-container {
-    .index-main-wave {
-      width: 50%;
-      height: 30%;
-      z-index: -1;
-      background: url('/img/waves.png') center center no-repeat;
-      background-size: contain;
-
-      &.left-top {
-        top: -4%;
-        left: -10%;
-        @include transform(rotate(180deg));
+      &.deactive {
+        @include opacity(.5);
       }
 
-      &.right-bottom {
-        right: -10%;
-        bottom: -4%;
-        @include opacity(0.7)
+      .carousel-navigator {
+        width: 40px;
+        height: 3px;
+        background-color: white;
       }
     }
   }

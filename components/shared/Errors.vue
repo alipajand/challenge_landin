@@ -70,7 +70,6 @@
   .error-code {
     font-size: 100px;
     line-height: 1;
-    font-family: $font-name-regular, 'Tahoma' !important;
   }
 
   .error-text {

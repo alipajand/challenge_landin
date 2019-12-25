@@ -2,6 +2,11 @@
   @include transition($transition-base);
 }
 
+.rtl {
+  direction: rtl;
+  text-align: right;
+}
+
 .page-enter,
 .page-enter-active,
 .page-leave-active,

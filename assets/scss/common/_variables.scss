@@ -4,4 +4,8 @@ $font-name-regular:    'IRANYEKAN';
 
 $form-margin-bottom:    1.3rem;
 
-$body-bg:               #22264C !default;
+$body-bg:                     #22264C !default;
+$font-family-sans-serif:      'vazir', 'Tahoma', 'Arial', 'sans-serif' !default;
+$font-family-monospace:       $font-family-sans-serif !default;
+$font-family-base:            $font-family-sans-serif !default;
+$enable-shadows:              true !default;

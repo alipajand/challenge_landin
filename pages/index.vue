@@ -8,6 +8,19 @@
     <div class="v-center rtl">
       <b-container>
         <b-row
+          v-if="data.questions && data.questions.length !== 0"
+          class="mb-3 carousel-navigator-container justify-content-center text-center"
+        >
+          <b-col
+            v-for="(card, index) in data.questions"
+            :key="index"
+            cols="auto"
+          >
+            <div class="carousel-navigator" />
+          </b-col>
+        </b-row>
+
+        <b-row
           v-for="(question, index) in data.questions"
           :key="index"
           class="justify-content-center"
@@ -20,7 +33,7 @@
               <div class="p-md-4 pt-4 pb-2">
                 <div class="text-center d-flex justify-content-center">
                   <div>
-                    <b-img class="mb-3" height="66" src="/img/slider2.png" />
+                    <b-img :src="question.sliderMaxImg" class="mb-3" height="66" />
                     <div>
                       {{ question.sliderMaxText }}
                     </div>
@@ -36,7 +49,7 @@
                     />
                   </div>
                   <div>
-                    <b-img class="mb-3" height="66" src="/img/slider1.png" />
+                    <b-img :src="question.sliderMinImg" class="mb-3" height="66" />
                     <div>
                       {{ question.sliderMinText }}
                     </div>
@@ -55,11 +68,14 @@
   export default {
     data: () => ({
       data: {
+        question: 0,
         questions: [
           {
             title: 'چقدر از کیفیت خدمات ما راضی هستید؟',
             sliderMinText: 'معمولی',
             sliderMaxText: 'زیاد',
+            sliderMaxImg: '/img/slider2.png',
+            sliderMinImg: '/img/slider1.png',
             sliderMinValue: 0,
             sliderMaxValue: 5,
             sliderInterval: 1,
@@ -68,9 +84,15 @@
         ]
       }
     }),
+    watch: {
+      '$route'() {
+        this.slideToQuestion();
+      }
+    },
     methods: {
-      onSliderChange(event) {
-        console.log(event);
+      slideToQuestion() {
+        const { q: questionNo } = this.$route.query;
+        this.data.question = questionNo;
       }
     }
   };
@@ -79,17 +101,29 @@
 <style scoped lang="scss">
   @import "../assets/scss/dep";
 
+  $question-top: -54px;
+
   .index-main-bg {
     z-index: -2;
     background: url('/img/bg.png') center center no-repeat;
     background-size: cover;
   }
 
+  .carousel-navigator-container {
+    @include transform(translateY(#{$question-top - 20px}));
+
+    .carousel-navigator {
+      width: 40px;
+      height: 3px;
+      background-color: white;
+    }
+  }
+
   .index-main-wave-container {
     .index-main-wave {
-      z-index: -1;
       width: 50%;
       height: 30%;
+      z-index: -1;
       background: url('/img/waves.png') center center no-repeat;
       background-size: contain;
 
@@ -114,9 +148,9 @@
 
     .index-top-header {
       left: -5%;
-      top: -54px;
       right: -5%;
       width: 110%;
+      top: $question-top;
       position: absolute;
       @include border-radius(64px !important);
 

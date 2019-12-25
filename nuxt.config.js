@@ -2,10 +2,13 @@ require('dotenv').config();
 
 const projectName = process.env.PROJECT_NAME;
 const themeColor = `#${process.env.THEME_COLOR}`;
-const isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = {
   mode: 'universal',
+  server: {
+    host: '0.0.0.0',
+    port: '4000'
+  },
   head: {
     noscript: [
       { innerHTML: 'You need javascript to run!' }

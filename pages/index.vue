@@ -14,7 +14,27 @@
                 چقدر از کیفیت خدمات ما راضی هستید؟
               </b-card>
               <div class="p-4">
-                سلام
+                <b-row class="text-center justify-content-center">
+                  <b-col cols="2">
+                    <b-img height="66" class="mb-3" src="/img/slider2.png" />
+                    زیاد
+                  </b-col>
+                  <b-col lg="6" cols="8" class="d-flex align-items-center">
+                    <vue-slider
+                      v-model="sliderVal"
+                      class="w-100 pb-4"
+                      :min="sliderMin"
+                      :max="sliderMax"
+                      :interval="1"
+                      :tooltip="'none'"
+                      @dragging="onSliderChange"
+                    />
+                  </b-col>
+                  <b-col cols="2">
+                    <b-img height="66" class="mb-3" src="/img/slider1.png" />
+                    معمولی
+                  </b-col>
+                </b-row>
               </div>
             </b-card>
           </b-col>
@@ -25,7 +45,18 @@
 </template>
 
 <script>
-  export default {};
+  export default {
+    data: () => ({
+      sliderVal: 0,
+      sliderMin: 0,
+      sliderMax: 5
+    }),
+    methods: {
+      onSliderChange(event) {
+        console.log(event);
+      }
+    }
+  };
 </script>
 
 <style scoped lang="scss">

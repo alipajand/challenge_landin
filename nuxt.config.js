@@ -52,6 +52,7 @@ module.exports = {
   ** Global CSS
   */
   css: [
+    'vue-slider-component/theme/default.css',
     '@/assets/scss/bootstrap.scss'
   ],
 
@@ -59,6 +60,7 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    { src: '@/plugins/vue-slider', ssr: false },
   ],
 
   /*

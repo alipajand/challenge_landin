@@ -1,0 +1,60 @@
+.vue-slider-process {
+  overflow-x: hidden;
+  background-color: $primary !important;
+}
+
+.vue-slider-dot-handle-focus {
+  @include box-shadow(0.5px 0.5px 2px 1px rgba(0, 0, 0, 0.32));
+}
+
+.vue-slider-dot-tooltip-inner {
+  color: $black !important;
+  font-size: 12px !important;
+  background-color: $white !important;
+  border: 1px solid $primary !important;
+  @include border-radius($border-radius);
+  @include box-shadow(0px 2px 4px 0px rgba(0, 0, 0, 0.09));
+
+  &:before {
+    display: none;
+  }
+
+  &:after {
+    content: '';
+    left: 0 !important;
+    right: 0 !important;;
+    width: 9px;
+    height: 9px;
+    margin: auto;
+    border: none;
+    position: absolute;
+    background-color: $white;
+    border-right: 1px solid $primary;
+    border-bottom: 1px solid $primary;
+    @include transform(none);
+  }
+}
+
+.vue-slider-dot-tooltip-bottom {
+  bottom: 0 !important;
+
+  .vue-slider-dot-tooltip-inner {
+    &:after {
+      top: 0;
+      margin-top: -4px;
+      @include transform(rotate(-135deg));
+    }
+  }
+}
+
+.vue-slider-dot-tooltip-top {
+  top: 0 !important;
+
+  .vue-slider-dot-tooltip-inner {
+    &:after {
+      bottom: 0;
+      margin-bottom: -4px;
+      @include transform(rotate(45deg));
+    }
+  }
+}

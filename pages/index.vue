@@ -7,34 +7,41 @@
     </div>
     <div class="v-center rtl">
       <b-container>
-        <b-row class="justify-content-center">
-          <b-col xl="7" lg="8" md="10" cols="12">
+        <b-row
+          v-for="(question, index) in data.questions"
+          :key="index"
+          class="justify-content-center"
+        >
+          <b-col cols="10" lg="8" xl="6">
             <b-card class="border-0 rounded-expanded position-relative index-question-wrapper">
               <b-card class="border-0 index-top-header shadow-large text-center">
-                چقدر از کیفیت خدمات ما راضی هستید؟
+                {{ question.title }}
               </b-card>
-              <div class="p-4">
-                <b-row class="text-center justify-content-center">
-                  <b-col cols="2">
-                    <b-img height="66" class="mb-3" src="/img/slider2.png" />
-                    زیاد
-                  </b-col>
-                  <b-col lg="6" cols="8" class="d-flex align-items-center">
+              <div class="p-md-4 pt-4 pb-2">
+                <div class="text-center d-flex justify-content-center">
+                  <div>
+                    <b-img class="mb-3" height="66" src="/img/slider2.png" />
+                    <div>
+                      {{ question.sliderMaxText }}
+                    </div>
+                  </div>
+                  <div class="d-flex align-items-center flex-grow-1 px-4 pb-4">
                     <vue-slider
-                      v-model="sliderVal"
-                      class="w-100 pb-4"
-                      :min="sliderMin"
-                      :max="sliderMax"
-                      :interval="1"
+                      v-model="question.sliderVal"
+                      class="w-100"
+                      :min="question.sliderMinValue"
+                      :max="question.sliderMaxValue"
+                      :interval="question.sliderInterval"
                       :tooltip="'none'"
-                      @dragging="onSliderChange"
                     />
-                  </b-col>
-                  <b-col cols="2">
-                    <b-img height="66" class="mb-3" src="/img/slider1.png" />
-                    معمولی
-                  </b-col>
-                </b-row>
+                  </div>
+                  <div>
+                    <b-img class="mb-3" height="66" src="/img/slider1.png" />
+                    <div>
+                      {{ question.sliderMinText }}
+                    </div>
+                  </div>
+                </div>
               </div>
             </b-card>
           </b-col>
@@ -47,9 +54,19 @@
 <script>
   export default {
     data: () => ({
-      sliderVal: 0,
-      sliderMin: 0,
-      sliderMax: 5
+      data: {
+        questions: [
+          {
+            title: 'چقدر از کیفیت خدمات ما راضی هستید؟',
+            sliderMinText: 'معمولی',
+            sliderMaxText: 'زیاد',
+            sliderMinValue: 0,
+            sliderMaxValue: 5,
+            sliderInterval: 1,
+            sliderVal: 0
+          }
+        ]
+      }
     }),
     methods: {
       onSliderChange(event) {
@@ -97,7 +114,7 @@
 
     .index-top-header {
       left: -5%;
-      top: -64px;
+      top: -54px;
       right: -5%;
       width: 110%;
       position: absolute;
